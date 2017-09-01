@@ -10,19 +10,25 @@ import glob
 import numpy as np
 
 
-# In[2]:
+# In[16]:
 
-def bias():
-    BIAS = []
-    i = 1
-    for fitsName in glob.glob('bias.B.*.fits'):        
-        img, hdr = fits.getdata(fitsName,header=True)
-        img = np.array(img, dtype='Float64')
-        globals()['bias%s' % i] = img
-#        print('bias%s' % i)
-        BIAS.append(img)
-#        print(img)
-        i += 1
-    bias_median = np.median(BIAS, axis=0)
-    return(bias_median)
+#Função que calcula a mediana de todas as imagens de bias
+def bias(): 
+    BIAS = [] #abre uma variável vazia
+    for fitsName in glob.glob('bias.B.*.fits'): #função glob.glob consegue identificar padrões. Todos os meus arquivos com esse padrão de nome serão lidos       
+        img, hdr = fits.getdata(fitsName,header=True) 
+        img = np.array(img, dtype='Float64') #correção do Float64
+        BIAS.append([img]) #junção de todas as iimagens de bias em um array
+    bias_median = np.median(BIAS, axis = 0) #cálculo da mediana de todos as imagens bias
+    return(bias_median) #retorna a matriz de bias
+
+
+# In[17]:
+
+bias()
+
+
+# In[ ]:
+
+
 
